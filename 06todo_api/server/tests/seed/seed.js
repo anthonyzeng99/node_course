@@ -17,7 +17,11 @@ const users = [{
 }, {
   _id: userTwoId,
   email: 'sample2@example.com',
-  password: 'user2pass'
+  password: 'user2pass',
+  tokens: [{
+    access: 'auth',
+    token: jwt.sign({_id: userTwoId, access: 'auth'}, 'abc123').toString()
+  }]
 }];
 
 const todos = [{
