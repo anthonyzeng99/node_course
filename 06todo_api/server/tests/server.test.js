@@ -4,24 +4,10 @@ const {ObjectId} = require('mongodb');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
+const {todos, populateTodos, users, populateUsers} = require('./seed/seed')
 
-const testTodos = [{
-  _id: new ObjectId(),
-  text: 'first test todo',
-  completed: false,
-  completedAt: null
-}, {
-  _id: new ObjectId(),
-  text: 'second test todo',
-  completed: true,
-  completedAt: 123123
-}];
-
-beforeEach((done) => {
-  Todo.remove({}).then(() => {
-    return Todo.insertMany(testTodos);
-  }).then(() => done());
-});
+beforeEach(populateUsers);
+beforeEach(populateTodos);
 
 describe("POST /todos", () => {
   it("should create a new todo", (done) => {
@@ -79,10 +65,10 @@ describe("GET /todos", () => {
 describe("GET /todos/:id", () => {
   it("should return todo doc", (done) => {
     request(app)
-      .get(`/todos/${testTodos[0]._id.toHexString()}`)
+      .get(`/todos/${todos[0]._id.toHexString()}`)
       .expect(200)
       .expect((res) => {
-        expect(res.body.todo.text).toBe(testTodos[0].text);
+        expect(res.body.todo.text).toBe(todos[0].text);
       })
       .end(done);
   });
@@ -111,7 +97,7 @@ describe("GET /todos/:id", () => {
 
 describe("DELETE /todos/:id", () => {
   it("should remove a todo", (done) => {
-    var hexId = testTodos[1]._id.toHexString();
+    var hexId = todos[1]._id.toHexString();
     request(app)
       .delete(`/todos/${hexId}`)
       .expect(200)
@@ -156,7 +142,7 @@ describe("DELETE /todos/:id", () => {
 
 describe('PATCH /todos/:id', () => {
   it('should update todo', (done) => {
-    var hexId = testTodos[0]._id.toHexString();
+    var hexId = todos[0]._id.toHexString();
     var text = 'this should be the new text'
 
     request(app)
@@ -175,7 +161,7 @@ describe('PATCH /todos/:id', () => {
   });
 
   it('should update todo to false and clear completed at', (done) => {
-    var hexId = testTodos[1]._id.toHexString();
+    var hexId = todos[1]._id.toHexString();
     var body = {
       'completed': false
     }
