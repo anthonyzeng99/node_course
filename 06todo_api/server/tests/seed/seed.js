@@ -28,7 +28,7 @@ const users = [{
   }]
 }, {
   _id: userTwoId,
-  email: 'sample3@example.com',
+  email: 'sample2@example.com',
   password: 'user2pass'
 }];
 
