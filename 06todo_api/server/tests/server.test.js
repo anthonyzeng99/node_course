@@ -278,23 +278,23 @@ describe('POST /users/login', () => {
       });
   });
 
-  // it('should reject invalid login', (done) => {
-  //   request(app)
-  //     .post('/users/login')
-  //     .send({email: users[1].email, password: 'incorrectpassword1'})
-  //     .expect(400)
-  //     .expect((res) => {
-  //       expect(res.headers['x-auth']).toNotExist();
-  //     })
-  //     .end((err, res) => {
-  //       if (err) {
-  //         return done(err);
-  //       }
-  //
-  //       User.findById(users[1]._id).then((user) => {
-  //         expect(user.tokens.length).toEqual(0);
-  //         done();
-  //       }).catch((e) => done(e));
-  //     });
-  // });
+  it('should reject invalid login', (done) => {
+    request(app)
+      .post('/users/login')
+      .send({email: users[1].email, password: 'incorrectpassword1'})
+      .expect(400)
+      .expect((res) => {
+        expect(res.headers['x-auth']).toNotExist();
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        User.findById(users[1]._id).then((user) => {
+          expect(user.tokens.length).toEqual(0);
+          done();
+        }).catch((e) => done(e));
+      });
+  });
 })
