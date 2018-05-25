@@ -16,8 +16,14 @@ const getCountries = async (currencyCode) => {
   return countries;
 };
 
-getExchangeRate('USD', 'CAD').then((rate) => {
-  console.log(rate);
-})
+const convertCurrency = async (from, to, amount) => {
+  const exchangeRate = await getExchangeRate(from, to);
+  const countries = await getCountries(to);
+  const convertedAmount = (amount * exchangeRate).toFixed(2);
 
-getCountries('USD').then((countries) => console.log(countries));
+  return `${amount} ${from} is worth ${convertedAmount} ${to} You can spend these in the follow countries: ${countries}`;
+}
+
+convertCurrency('USD', 'GBP', 1).then((response) => {
+  console.log(response);
+}).catch((e) => console.log(e));
