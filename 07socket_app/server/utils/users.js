@@ -38,13 +38,26 @@ class Users {
   }
 
   removeUser(id) {
-
+    var removedUser;
+    this.users = this.users.filter((user) => {
+      if (user.id === id) {
+        removedUser = user;
+        return false;
+      }
+      return true;
+    })
+    return removedUser;
   }
 
   getUser(id) {
-
+    return this.users.filter((user) => user.id === id)[0];
   }
 
+  getUserList(roomName) {
+    var users = this.users.filter((user) => user.room === roomName);
+    var namesArray = users.map((user) => user.name);
+    return namesArray;
+  }
 }
 
 module.exports = {Users};
